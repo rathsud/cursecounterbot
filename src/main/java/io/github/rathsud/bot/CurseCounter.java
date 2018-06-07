@@ -1,12 +1,13 @@
 package io.github.rathsud.bot;
 
+import io.github.rathsud.utilities.Grunt;
 import net.dean.jraw.RedditClient;
 import net.dean.jraw.http.OkHttpNetworkAdapter;
 import net.dean.jraw.http.UserAgent;
-import net.dean.jraw.oauth.Credentials;
-import net.dean.jraw.oauth.OAuthHelper;
 
 import io.github.rathsud.utilities.CredentialsManager;
+import net.dean.jraw.oauth.Credentials;
+import net.dean.jraw.oauth.OAuthHelper;
 
 public class CurseCounter
 {
@@ -30,6 +31,8 @@ public class CurseCounter
         RedditClient reddit = OAuthHelper.automatic(
                 new OkHttpNetworkAdapter(userAgent),
                 credentials);
+
+        Grunt.LOG.debug(reddit.me().about());
 
     }
 
