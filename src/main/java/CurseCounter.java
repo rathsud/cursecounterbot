@@ -13,6 +13,7 @@ import java.util.Properties;
 
 public class CurseCounter
 {
+     /* TODO: Decouple into status Codes class */
     final private static int IMPORT_ERROR = 1;
     final private static Logger LOG = LogManager.getLogger();
     final private static String CURSE_CONFIG = "src/main/resources/Curse.config";
@@ -31,6 +32,8 @@ public class CurseCounter
 
     final private static Properties import_credentials(String properties)
     {
+        /* TODO: Decouple into utilities class */
+
         Properties p = new Properties();
         InputStream input;
 
