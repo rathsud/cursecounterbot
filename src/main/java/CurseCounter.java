@@ -13,12 +13,23 @@ import java.util.Properties;
 
 public class CurseCounter
 {
-    private final static int IMPORT_ERROR = 1;
-    private static final Logger LOG = LogManager.getLogger();
-    private static final String CURSE_CONFIG = "src/main/resources/Curse.config";
+    final private static int IMPORT_ERROR = 1;
+    final private static Logger LOG = LogManager.getLogger();
+    final private static String CURSE_CONFIG = "src/main/resources/Curse.config";
+
+    final static Properties credentialProperties = import_credentials(CURSE_CONFIG);
+
+    final static String username = getProp(credentialProperties, "username");
+    final static String password = getProp(credentialProperties, "password");
+    final static String clientId = getProp(credentialProperties, "clientId");
+    final static String clientSecret = getProp(credentialProperties, "clientSecret");
+
+    final static String platform = getProp(credentialProperties, "platform");
+    final static String appId = getProp(credentialProperties, "appId");
+    final static String version = getProp(credentialProperties, "version");
 
 
-    static Properties import_credentials(String properties)
+    final private static Properties import_credentials(String properties)
     {
         Properties p = new Properties();
         InputStream input;
@@ -27,12 +38,6 @@ public class CurseCounter
         {
             input = new FileInputStream(properties);
             p.load(input);
-
-            LOG.debug(p.getProperty("username"));
-            LOG.debug(p.getProperty("password"));
-            LOG.debug(p.getProperty("clientId"));
-            LOG.debug(p.getProperty("clientSecret"));
-
         }
         catch (IOException ie)
         {
@@ -43,22 +48,23 @@ public class CurseCounter
         return p;
     }
 
+    private static String getProp(Properties p, String key)
+    {
+        /* TODO: Decouple into utilities class */
+
+        LOG.debug(p.getProperty(key));
+
+        return p.getProperty(key);
+    }
+
     public static void main(String[] args)
     {
-        Properties credentialProperties = import_credentials(CURSE_CONFIG);
 
         Credentials credentials =
-                Credentials.script(
-                        credentialProperties.getProperty("username"),
-                        credentialProperties.getProperty("password"),
-                        credentialProperties.getProperty("clientId"),
-                        credentialProperties.getProperty("clientSecret"));
+                Credentials.script(username, password, clientId, clientSecret);
 
-        UserAgent userAgent = new UserAgent(
-                "bot",
-                "curse.counter.bot",
-                "1.0.0",
-                "CurseCounter");
+        UserAgent userAgent =
+                new UserAgent(platform, appId, version, username);
 
         RedditClient reddit = OAuthHelper.automatic(
                 new OkHttpNetworkAdapter(userAgent),
