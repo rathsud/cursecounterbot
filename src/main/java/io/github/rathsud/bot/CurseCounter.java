@@ -1,3 +1,5 @@
+package io.github.rathsud.bot;
+
 import net.dean.jraw.RedditClient;
 import net.dean.jraw.http.OkHttpNetworkAdapter;
 import net.dean.jraw.http.UserAgent;
